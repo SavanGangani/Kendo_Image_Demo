@@ -1,0 +1,44 @@
+﻿@model mvc_exam_krishna_tamakuwala.Models.t_studenttable
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>t_studenttable</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.c_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c_image)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.c_image)*@
+            <img src="~/images/@Model.c_image" height="200" alt="@Model.c_image"/>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.c_id }, new { @class = "btn btn-info" }) |
+    @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-default" })
+</p>

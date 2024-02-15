@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Logout";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<h2>Logout</h2>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+    document.cookie = "email" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = "password" + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    window.location = "/Auth/Login";
+</script>

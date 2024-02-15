@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<style>
+    body {
+        font-family: Arial;
+    }
+    .profile-photo {
+        display: inline-block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-size: 100px 100px;
+            background-position: center center;
+            vertical-align: middle;
+            line-height: 100px;
+            box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+            margin-right: 5px;
+    }
+</style>
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <script src="~/kendoui_new/js/jquery.min.js"></script>
+    <script src="~/kendoui_new/js/kendo.all.min.js"></script>
+
+    <link href="~/kendoui_new/styles/default-turquoise.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div id="grid"></div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: "/StudentKendo/GetAll",
+                    type: "GET"
+                },
+                create: {
+                    url: "/StudentKendo/Add",
+                    type: "GET"
+                },
+                update: {
+                    url: "/StudentKendo/Update",
+                    type: "GET"
+                },
+                destroy: {
+                    url: "/StudentKendo/Delete",
+                    type: "GET"
+                }
+            },
+            pageSize: 5,
+            schema: {
+                model: {
+                    id: "c_id",
+                    fields: {
+                        c_name: { type: "string", validation: { required: true } },
+                        c_image: { type: "string", validation: { required: true } }
+                    }
+                }
+            }
+        });
+
+        $("#grid").kendoGrid({
+            dataSource: dataSource,
+            filterable: true,
+            sortable: true,
+            pageable: true,
+            toolbar: ["create"],
+            columns: [
+                {
+                    field: "c_name",
+                    title: "Student Name"
+                },
+                {
+                    field: "c_image",
+                    title: "Student Image",
+                    template: "<div class='profile-photo' style='background-image: url(../images/#:data.c_image#);'></div>",
+                    editor: imageUploadEditor
+                },
+                {
+                    command: ["edit", "destroy"],
+                    title: "&nbsp;"
+                }
+            ],
+            editable: "popup"
+        });
+    });
+
+    function imageUploadEditor(container, options) {
+        $('<input type="file" id="temp_name" name="temp_name"  />')
+        .appendTo(container)
+        .kendoUpload({
+            multiple: false,
+            validation: {
+                allowedExtensions: [".jpg", ".png", ".jpeg"]
+            },
+            select: imageNameChange
+        });
+
+        $('<input type="hidden" id="c_image" name="c_image" data-bind="value:c_image"  /> ').appendTo(container);
+    }
+
+    function imageNameChange(e) {
+        $.each(e.files, function (index, value) {
+            $("#c_image").val(value.name).change();
+        });
+    };
+</script>

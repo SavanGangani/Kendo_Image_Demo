@@ -1,0 +1,106 @@
+﻿@model mvc_exam_krishna_tamakuwala.Models.t_usertable
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<style>
+    .error {
+        display: none;
+    }
+</style>
+
+<h2>Register</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @*<h4>t_usertable</h4>*@
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.c_userid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.c_userid, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.c_userid, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.c_username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.c_username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.c_username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.c_email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.c_email, new { htmlAttributes = new { @class = "form-control", @id = "txtEmail" } })
+                <p id="errEmail" class="error text-danger">Email is already exists!</p>
+                @Html.ValidationMessageFor(model => model.c_email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.c_gender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.c_gender, "Male", new { htmlAttributes = new { @class = "form-control" } })
+                Male &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.c_gender, "Female", new { htmlAttributes = new { @class = "form-control" } })
+                Female &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.c_gender, "Other", new { htmlAttributes = new { @class = "form-control" } })
+                Other &nbsp;&nbsp;&nbsp;
+                @Html.ValidationMessageFor(model => model.c_gender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.c_password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.c_password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.c_password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Register" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    $("#txtEmail").change(function () {
+        var settings = {
+            "url": "/Auth/IsEmailExists?email=" + $("#txtEmail").val(),
+            "method": "GET",
+            "timeout": 0
+        }
+        $.ajax(settings).done(function (message) {
+            if(message == "True")
+            {
+                $("#errEmail").css("display", "block");
+            }
+            else
+            {
+                $("#errEmail").css("display", "none");
+            }
+        });
+    });
+</script>

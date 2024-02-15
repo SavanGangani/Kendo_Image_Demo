@@ -1,0 +1,56 @@
+﻿@model IEnumerable<mvc_exam_krishna_tamakuwala.Models.t_studenttable>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<style>
+    .table tbody tr td {
+        vertical-align: middle;
+    }
+</style>
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New Student", "Add", "", new { @class = "btn btn-info" })
+</p>
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_image)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.c_id }, new { @class = "btn btn-info" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_name)
+        </td>
+        <td>
+            <img src="~/images/@item.c_image" height="200" alt="@item.c_image" />
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.c_id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Delete", "Delete", new { id=item.c_id }, new { @class = "btn btn-danger" })
+        </td>
+    </tr>
+}
+
+</table>
